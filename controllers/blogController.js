@@ -30,7 +30,11 @@ const modify = (req,res) => {
 
 const destroy = (req,res) => {
   const id = req.params.id
-  res.send(`elimino il blog con id ${id}`)
+  const sql = 'DELETE FROM posts WHERE id = ?'
+  connection.query(sql, [id], (err,results) => {
+    if (err) return res.status(500).json({error: 'eliminazione del blog '})
+    res.sendStatus (204) 
+  })
 }
 
 module.exports = {

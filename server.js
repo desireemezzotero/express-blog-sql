@@ -12,7 +12,7 @@ app.get('/', (req,res) => {
   res.send('server del blog')
 })
 
-app.get('/posts', blogsRouter)
+app.use('/posts', blogsRouter)
 
 /* uso il middleware per la gestione del'errore */
 app.use(errorsHandler)
