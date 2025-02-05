@@ -1,4 +1,5 @@
 const connection = require('../data/db')
+const notFound = require('../middlewares/notFound')
 
 const index = (req,res) => {
   const sql = 'SELECT * FROM posts'
@@ -10,8 +11,14 @@ const index = (req,res) => {
 }
 
 const show = (req,res) => {
-  const id = req.params.id
-  res.send(`dettaglio del blog con id: ${id}`)
+  const sql = 'SELECT * FROM posts WHERE id = ? '
+   
+  connection.query(sql,[id], (err, results) => {
+    if(err) return res.status(500).json({err:'query al database fallita'})
+    if (results.length === 0) return res.status(404).json({err:'post non trovato'})
+    let post = results[0]
+    res.json(post)
+  })
 }
 
 const store = (req,res) => {
